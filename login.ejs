@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <input type="text" id="username" placeholder="Username" required>
+    <button type="submit" onclick="login()">Login</button> <br>
+    <input type="text" id="register" placeholder="Register"><button id="signup" onclick="signup()">Sign up</button>
+ <script>
+        function login(){
+            var username = document.getElementById("username").value;
+            sessionStorage.setItem('userid',username);
+            const data = new URLSearchParams();
+            data.append('userid', username);
+            window.location.href='/dashboard';
+            fetch('/userId',{
+                method : 'POST',
+                body:data
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(`${data}`)
+            })
+        }
+    </script>
+    <script>
+        function signup(){
+            var newid = document.getElementById("register").value;
+            const data = new URLSearchParams();
+            data.append('newid', newid);
+            fetch('/newacc',{
+                method:'POST',
+                body:data
+            })
+            .then(response => response.json())
+  .then(data => {
+    console.log(data.message); // Assuming your server sends back a response
+  })
+}
+    </script>
+</body>
+</html>
